@@ -1,4 +1,4 @@
-# ## Car Dealership
+## Car Dealership
 
 This project was created as the capstone project for the IBM full stack developer course, found here: https://www.coursera.org/professional-certificates/ibm-full-stack-cloud-developer?skipBrowseRedirect=true . This project has been left public so that fellow lerners, people who might be interested in the course or people wondering through github can view it.
 
