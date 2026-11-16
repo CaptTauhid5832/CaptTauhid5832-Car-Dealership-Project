@@ -1,19 +1,155 @@
-## Car Dealership
+# 🚗 Best Cars – Car Dealership Review Portal
 
-This project was created as the capstone project for the IBM full stack developer course, found here: https://www.coursera.org/professional-certificates/ibm-full-stack-cloud-developer?skipBrowseRedirect=true . This project has been left public so that fellow lerners, people who might be interested in the course or people wondering through github can view it.
+A full-stack web application where customers can browse car dealerships across the United States, read customer reviews for each branch, and post their own reviews.
 
-##### Project concept
+Built as the capstone project for the **IBM Full Stack Software Developer Professional Certificate** on Coursera.
 
-The idea of the project is to create a template for a website, that lists car dealerships. The content of course being fictional and made up. 
-![image](https://github.com/Jathn/agfzb-CloudAppDevelopment_Capstone/assets/124161756/9b576022-a672-48c6-ab2d-89315b68c8c8)
-*This is what I made the front page look like, I know... a little dull :(*
+---
 
-The basics for front end and back end were created with django. The styling was implemented by myself using bootstrap and some parts also using css manually.
-As is hinted in the upper right corner, this project used user management for signup and login. The django framework with it's ORM models provided an ease of implementation, also integrating with the html files.
-![image](https://github.com/Jathn/agfzb-CloudAppDevelopment_Capstone/assets/124161756/2307131d-bc4b-4268-ba0a-943e289e3077)
-*This is how a signup to the site might look*
+## 📖 About the Project
 
-The project relies on a couple other features too, such as fetching data from databases. The data for the dealerships and reviews for this dealership were originally implemented on IBM cloud functions. 
-However in this version I use a locally run flask app for reviews and a node with express server to fetch the dealerships. These are then used by the django server to display information requested by the client.
-When displaying the reviews for a dealership their sentiment is analyzed using a sentiment analyzer. They then get a happy face if they are positive and a sad face if they are negative. The sentiment analyzer I used was provided here: https://rapidapi.com/symanto-symanto-default/api/sentiment-analysis9/
-![image](https://github.com/Jathn/agfzb-CloudAppDevelopment_Capstone/assets/124161756/110804ca-ef41-4387-bab3-d925c257940c)
+A national car dealership with branches across the US ran a market survey. Customers said they wanted **one central place to read dealership reviews from across the country**.
+
+This portal answers that need. It brings **transparency** to the dealership network and helps build **customer trust** by letting anyone see honest reviews, and letting registered customers share their own experience.
+
+---
+
+## ✨ Features
+
+### 👤 Anonymous users
+- View the **About Us** and **Contact Us** pages
+- View the list of all dealerships
+- **Filter dealerships by state** using a dropdown
+- Open a dealership's details page and read its reviews, each shown on a Bootstrap card
+- See the **sentiment** of every review (positive, neutral or negative)
+- Register for an account or log in
+
+### 🔐 Authorized users
+Everything above, plus:
+- A **Review** button next to each dealership
+- Write a review with purchase details: purchase date, car make, car model and car year
+- The new review appears at the top of the dealership's review list
+
+### 🛠️ Admin users
+- Log in to the **Django admin site**
+- Add and manage **car makes, car models** and their attributes
+
+---
+
+## 🏗️ Architecture
+
+```
+                ┌──────────────────────────┐
+                │  React front end (UI)    │
+                └────────────┬─────────────┘
+                             │
+                ┌────────────▼─────────────┐
+                │  Django app              │
+                │  users, auth, car makes  │
+                │  and models, API proxy   │
+                └──────┬───────────┬───────┘
+                       │           │
+       ┌───────────────▼───┐   ┌───▼──────────────────┐
+       │ Node.js + Express │   │ Sentiment analyzer   │
+       │ dealers & reviews │   │ (Flask microservice) │
+       └─────────┬─────────┘   └──────────────────────┘
+                 │
+       ┌─────────▼─────────┐
+       │     MongoDB       │
+       └───────────────────┘
+```
+
+| Component | Role |
+|---|---|
+| **Django** | User management and authentication, car make and model data (SQLite), routes requests to the other services |
+| **React** | Front-end pages: Login, Register, Dealers, Dealer details, Post Review |
+| **Node.js + Express** | REST API for dealerships and reviews |
+| **MongoDB** | Stores dealership and review data |
+| **Flask sentiment analyzer** | Analyses review text and returns its sentiment; deployed on IBM Cloud Code Engine |
+| **Docker / Kubernetes** | Containerizes and deploys the application |
+| **GitHub Actions** | CI workflow that lints the Python and JavaScript code |
+
+---
+
+## 🧰 Tech Stack
+
+**Front end:** React, HTML, CSS, Bootstrap
+**Back end:** Python, Django, Node.js, Express, Flask
+**Database:** MongoDB, SQLite
+**DevOps and cloud:** Docker, Kubernetes, IBM Cloud Code Engine, GitHub Actions
+
+---
+
+## 📂 Project Structure
+
+```
+server/
+├── database/      # Node.js + Express API, MongoDB data and Docker setup
+├── djangoapp/     # Django app: models, views, REST API proxies
+├── djangoproj/    # Django project settings and URL routes
+├── frontend/      # React app and static pages (Home, About, Contact)
+├── manage.py
+└── requirements.txt
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/CaptTauhid5832/CaptTauhid5832-Car-Dealership-Project.git
+cd CaptTauhid5832-Car-Dealership-Project/server
+```
+
+### 2. Set up the Python environment
+```bash
+pip install virtualenv
+virtualenv djangoenv
+source djangoenv/bin/activate
+python3 -m pip install -U -r requirements.txt
+```
+
+### 3. Prepare the database and run Django
+```bash
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+```
+
+Open **http://localhost:8000** in your browser.
+
+### 4. Create an admin user (optional)
+```bash
+python3 manage.py createsuperuser
+```
+The admin site is at **http://localhost:8000/admin**.
+
+---
+
+## ✅ Project Progress
+
+- [x] Fork and clone the project template
+- [x] Run the Django app on the development server
+- [x] Navigation bar with Bootstrap
+- [x] About Us page
+- [x] Contact Us page
+- [ ] User management (login, logout, sign-up)
+- [ ] Back-end services (dealers, reviews, car makes and models, sentiment analysis)
+- [ ] Dynamic pages (dealers list, state filter, dealer details, post review)
+- [ ] CI with GitHub Actions
+- [ ] Containerize and deploy
+
+---
+
+## 👨‍💻 Author
+
+**Tauhidur Rahman**
+Lead Full-Stack Software Developer (Capstone)
+GitHub: [@CaptTauhid5832](https://github.com/CaptTauhid5832)
+
+---
+
+## 📄 License
+
+This project is licensed under the terms of the [LICENSE](LICENSE) file in this repository.
